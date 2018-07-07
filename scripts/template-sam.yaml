@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: MitoChat API
+
+Parameters:
+  TemplateUploadBucketName:
+    Type: String
+
+Resources:
+  MitoChatApi:
+    Type: AWS::Serverless::Api
+    Properties:
+        StageName: Prod
+        DefinitionBody:
+          Fn::Transform:
+            Name: AWS::Include
+            Parameters:
+              Location:
+                Fn::Join: [ "", [ 's3://', Ref: TemplateUploadBucketName, '/swagger.yaml' ] ]
+
+  MitoChatFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: net.tasuwo.mitochat.LambdaHandler::handleRequest
+      Runtime: java8
+      CodeUri: ../build/libs/shadow.jar
+      MemorySize: 512
+      Timeout: 60
+      AutoPublishAlias: latest
+      Events:
+
+  # デフォルトだとリテンションが無限の Log Group ができてしまうので指定して作成
+  MitoChatFunctionLogGroup:
+      Type: AWS::Logs::LogGroup
+      Properties:
+        LogGroupName:
+          Fn::Sub: /aws/lambda/${MitoChatFunction}
+        RetentionInDays: 14
+
