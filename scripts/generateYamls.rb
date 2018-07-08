@@ -19,19 +19,17 @@ swagger_data["paths"].each{|api_path, api_info|
     # Swagger 記述への追記
     # TODO: JAX-RS に全て任せたい
     if http_method != "options"
-      swagger_data["paths"][api_path][http_method]['x-amazon-apigateway-integration'] = {
-          'uri' => {
-              'Fn::Sub' => 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MitoChatFunction.Arn}/invocations'
-          },
-          'responses' => {
-              'default' => {
-                  'statusCode' => '200',
-                  'responseParameters' => {
-                      # 'method.response.header.Access-Control-Allow-Headers' => "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'",
-                      'method.response.header.Access-Control-Allow-Headers' => "'*'",
-                      'method.response.header.Access-Control-Allow-Methods' => "'*'",
-                      'method.response.header.Access-Control-Allow-Origin' => "'*'"
-                  }
+      swagger_data["paths"][api_path][http_method]['x-amazon-apigateway-integration']['uri'] = {
+          'Fn::Sub' => 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MitoChatFunction.Arn}/invocations'
+      }
+      swagger_data["paths"][api_path][http_method]['x-amazon-apigateway-integration']['responses'] = {
+          'default' => {
+              'statusCode' => '200',
+              'responseParameters' => {
+                  # 'method.response.header.Access-Control-Allow-Headers' => "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'",
+                  'method.response.header.Access-Control-Allow-Headers' => "'*'",
+                  'method.response.header.Access-Control-Allow-Methods' => "'*'",
+                  'method.response.header.Access-Control-Allow-Origin' => "'*'"
               }
           }
       }
