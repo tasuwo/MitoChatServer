@@ -1,0 +1,45 @@
+language: java
+
+cache:
+  directories:
+  - $HOME/.gradle/wrapper
+  - $HOME/.gradle/caches
+
+sudo: required
+
+services:
+  - docker
+
+# 下記リストに存在するパッケージはここでインストール
+# > https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
+addons:
+  apt:
+    packages:
+      - net-tools
+
+before_install:
+  - chmod +x ./scripts/*.sh
+  - chmod +x ./scripts/travis-ci/*.sh
+  - ./scripts/travis-ci/install_packages_for_integration_tests.sh
+  - if [[ $TRAVIS_BRANCH == 'env/prod' ]]; then ./scripts/travis-ci/setup_aws_cli.sh ; fi
+
+before_script:
+  - ./scripts/travis-ci/install_fake_services.sh
+
+script:
+  - ./gradlew unitTest
+  - ./scripts/travis-ci/setup_and_execute_integration_tests.sh
+
+after_script:
+  - ./scripts/travis-ci/output_fake_services_log.sh
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: >-
+      sh scripts/deploy.sh
+      ${STACK_NAME}
+      ${TEMPLATE_UPLOAD_BUCKET}
+      ${LAMBDA_ROLE_ARN}
+    on:
+      branch: env/prod
