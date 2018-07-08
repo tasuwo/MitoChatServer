@@ -48,5 +48,4 @@ aws cloudformation deploy \
      --parameter-overrides \
         TemplateUploadBucketName=${TEMPLATE_UPLOAD_BUCKET_NAME} \
      || abort "デプロイに失敗しました"
-aws s3 rm s3://${TEMPLATE_UPLOAD_BUCKET_NAME}/jars/ --recursive
 echo "--- デプロイ終了 ---"
