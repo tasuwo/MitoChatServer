@@ -5,6 +5,8 @@ Description: MitoChat API
 Parameters:
   TemplateUploadBucketName:
     Type: String
+  RoleForLambdaExecution:
+    Type: String
 
 Resources:
   MitoChatApi:
@@ -26,6 +28,9 @@ Resources:
       CodeUri: ../build/libs/shadow.jar
       MemorySize: 512
       Timeout: 60
+      # iam:CreateRole 権限が必要になるのを避けるため、ロールは明示的にアタッチする
+      Role:
+        Ref: RoleForLambdaExecution
       AutoPublishAlias: latest
       Events:
 

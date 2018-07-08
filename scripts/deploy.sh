@@ -11,6 +11,7 @@
 
 STACK_NAME=$1
 TEMPLATE_UPLOAD_BUCKET_NAME=$2
+LAMBDA_ROLE_ARN=$3
 
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 ARTIFACTS_DIR="${SCRIPT_DIR}/../generated"
@@ -47,5 +48,6 @@ aws cloudformation deploy \
      --capabilities CAPABILITY_IAM \
      --parameter-overrides \
         TemplateUploadBucketName=${TEMPLATE_UPLOAD_BUCKET_NAME} \
+        RoleForLambdaExecution=${LAMBDA_ROLE_ARN} \
      || abort "デプロイに失敗しました"
 echo "--- デプロイ終了 ---"
