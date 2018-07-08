@@ -31,6 +31,9 @@ Resources:
       # iam:CreateRole 権限が必要になるのを避けるため、ロールは明示的にアタッチする
       Role:
         Ref: RoleForLambdaExecution
+      DeploymentPreference:
+        Enabled: true
+        Type: AllAtOnce
       AutoPublishAlias: latest
       Events:
 
