@@ -1,4 +1,4 @@
-# みとちゃっと
+# みとちゃっと [![Build Status](https://travis-ci.com/tasuwo/MitoChatServer.svg?branch=master)](https://travis-ci.com/tasuwo/MitoChatServer)
 
 ```shell
 ## ビルド & ユニットテスト
