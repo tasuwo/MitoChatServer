@@ -68,13 +68,13 @@ class EventsResource {
                 val events = Events(listOf(
                     WaitingEvent(2.0),
                     TypingEvent(2.0),
-                    TalkEvent("default", "起立！気をつけ！", false),
+                    TalkEvent("mito.png", "起立！気をつけ！", false),
                     WaitingEvent(1.0),
                     TypingEvent(4.0),
-                    TalkEvent("default", "こんにちは〜〜〜！月ノ美兎です〜〜〜！", false),
+                    TalkEvent("mito.png", "こんにちは〜〜〜！月ノ美兎です〜〜〜！", false),
                     WaitingEvent(1.0),
                     TypingEvent(2.0),
-                    TalkEvent("default", "見えてるかな？？", false),
+                    TalkEvent("mito.png", "見えてるかな？？", false),
                     WaitingEvent(1.5),
                     ProvideButtonEvent("おるやんけ！！", 2),
                     ProvideButtonEvent("みえてます！！", 3)
@@ -87,11 +87,11 @@ class EventsResource {
             "2" -> {
                 val events = Events(listOf(
                     ResetButtonsEvent(),
-                    TalkEvent("default", "おるやんけ！！", true),
+                    TalkEvent("mito.png", "おるやんけ！！", true),
                     WaitingEvent(3.0),
                     TypingEvent(3.0),
                     WaitingEvent(0.2),
-                    TalkEvent("default", "は〜い、おりますよ〜w", false)
+                    TalkEvent("mito.png", "は〜い、おりますよ〜w", false)
                 ))
                 Response
                     .status(200)
