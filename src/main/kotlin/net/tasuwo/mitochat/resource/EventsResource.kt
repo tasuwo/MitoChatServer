@@ -87,7 +87,7 @@ class EventsResource {
             "2" -> {
                 val events = Events(listOf(
                     ResetButtonsEvent(),
-                    TalkEvent("mito.png", "おるやんけ！！", true),
+                    TalkEvent("default.png", "おるやんけ！！", true),
                     WaitingEvent(3.0),
                     TypingEvent(3.0),
                     WaitingEvent(0.2),
