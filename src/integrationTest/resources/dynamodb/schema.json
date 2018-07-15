@@ -1,0 +1,27 @@
+{
+    "TableName": "Chat",
+    "KeySchema": [
+        {
+            "AttributeName": "Id",
+            "KeyType": "HASH"
+        },
+        {
+            "AttributeName": "Version",
+            "KeyType": "RANGE"
+        }
+    ],
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "Id",
+            "AttributeType": "N"
+        },
+        {
+            "AttributeName": "Version",
+            "AttributeType": "N"
+        }
+    ],
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 1,
+        "WriteCapacityUnits": 1
+    }
+}

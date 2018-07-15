@@ -21,7 +21,7 @@ before_install:
   - chmod +x ./scripts/*.sh
   - chmod +x ./scripts/travis-ci/*.sh
   - ./scripts/travis-ci/install_packages_for_integration_tests.sh
-  - if [[ $TRAVIS_BRANCH == 'env/prod' ]]; then ./scripts/travis-ci/setup_aws_cli.sh ; fi
+  - ./scripts/travis-ci/setup_aws_cli.sh
 
 before_script:
   - ./scripts/travis-ci/install_fake_services.sh
