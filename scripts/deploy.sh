@@ -43,6 +43,7 @@ aws cloudformation package \
 echo "--- jar ファイルアップロード終了 ---"
 
 echo "--- デプロイ開始 ---"
+# サービスのエンドポイントは、本番更新時には空欄にする (デフォルトのエンドポイントを利用する)
 aws cloudformation deploy \
      --template-file ${ARTIFACTS_DIR}/output-sam.yaml \
      --stack-name ${STACK_NAME} \
@@ -50,8 +51,7 @@ aws cloudformation deploy \
      --parameter-overrides \
         TemplateUploadBucketName=${TEMPLATE_UPLOAD_BUCKET_NAME} \
         RoleForLambdaExecution=${LAMBDA_ROLE_ARN} \
-        ChatDataBucketName=${CHAT_DATA_BUCKET_NAME}
-        # サービスのエンドポイントは、本番更新時には空欄にする (デフォルトのエンドポイントを利用する)
+        ChatDataBucketName=${CHAT_DATA_BUCKET_NAME} \
         DynamoDBEndpoint="" \
         S3BucketEndpoint="" \
      || abort "デプロイに失敗しました"
