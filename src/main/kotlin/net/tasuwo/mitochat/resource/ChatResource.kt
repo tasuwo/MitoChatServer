@@ -84,7 +84,7 @@ class ChatResource {
             val db = DynamoDB(dbClient)
             val tmpJsonPath = Paths.get("/tmp/tmp.json")
 
-            val prefix = db.retrieveChatDataPrefix(chat_id, 1)
+            val prefix = db.retrieveChatDataPrefix(chat_id, 0)
             s3Client.download(EnvironmentVariable.s3BucketName, prefix, tmpJsonPath)
 
             return Response
