@@ -1,4 +1,4 @@
-package net.tasuwo.mitochat.model.events
+package net.tasuwo.mitochat.model.json.events.enums
 
 import com.fasterxml.jackson.annotation.JsonValue
 
