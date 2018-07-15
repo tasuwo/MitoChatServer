@@ -69,7 +69,7 @@ dependencies {
     }
 
     // AWS
-    ext.aws_java_sdk_version='1.11.363'
+    ext.aws_java_sdk_version='1.11.368'
     compile group: 'com.amazonaws', name: 'aws-java-sdk-core', version: aws_java_sdk_version
     compile group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb', version: aws_java_sdk_version
     compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: aws_java_sdk_version
