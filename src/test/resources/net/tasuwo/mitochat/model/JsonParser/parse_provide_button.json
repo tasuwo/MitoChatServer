@@ -1,0 +1,11 @@
+{
+  "0": {
+    "events": [
+      {
+        "type": "PROVIDE_BUTTON",
+        "text": "text",
+        "nextChatId": 10
+      }
+    ]
+  }
+}

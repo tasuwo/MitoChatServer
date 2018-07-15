@@ -1,0 +1,12 @@
+{
+  "0": {
+    "events": [
+      {
+        "type": "TALK",
+        "icon": "icon",
+        "text": "text",
+        "right": true
+      }
+    ]
+  }
+}

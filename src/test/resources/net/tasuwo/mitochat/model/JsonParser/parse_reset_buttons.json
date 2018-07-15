@@ -1,0 +1,9 @@
+{
+  "0": {
+    "events": [
+      {
+        "type": "RESET_BUTTONS"
+      }
+    ]
+  }
+}
