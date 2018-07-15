@@ -12,6 +12,7 @@
 STACK_NAME=$1
 TEMPLATE_UPLOAD_BUCKET_NAME=$2
 LAMBDA_ROLE_ARN=$3
+CHAT_DATA_BUCKET_NAME=$4
 
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 ARTIFACTS_DIR="${SCRIPT_DIR}/../generated"
@@ -49,5 +50,9 @@ aws cloudformation deploy \
      --parameter-overrides \
         TemplateUploadBucketName=${TEMPLATE_UPLOAD_BUCKET_NAME} \
         RoleForLambdaExecution=${LAMBDA_ROLE_ARN} \
+        ChatDataBucketName=${CHAT_DATA_BUCKET_NAME}
+        # サービスのエンドポイントは、本番更新時には空欄にする (デフォルトのエンドポイントを利用する)
+        DynamoDBEndpoint="" \
+        S3BucketEndpoint="" \
      || abort "デプロイに失敗しました"
 echo "--- デプロイ終了 ---"

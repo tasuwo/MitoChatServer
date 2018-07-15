@@ -41,5 +41,6 @@ deploy:
       ${STACK_NAME}
       ${TEMPLATE_UPLOAD_BUCKET}
       ${LAMBDA_ROLE_ARN}
+      ${CHAT_DATA_BUCKET}
     on:
       branch: env/prod

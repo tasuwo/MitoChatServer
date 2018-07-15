@@ -7,6 +7,12 @@ Parameters:
     Type: String
   RoleForLambdaExecution:
     Type: String
+  DynamoDBEndpoint:
+    Type: String
+  S3BucketEndpoint:
+    Type: String
+  ChatDataBucketName:
+    Type: String
 
 Resources:
   MitoChatApi:
@@ -35,6 +41,14 @@ Resources:
         Enabled: true
         Type: AllAtOnce
       AutoPublishAlias: latest
+      Environment:
+        Variables:
+          DYNAMO_DB_ENDPOINT:
+            Ref: DynamoDBEndpoint
+          S3_BUCKET_ENDPOINT:
+            Ref: S3BucketEndpoint
+          S3_BUCKET_NAME:
+            Ref: ChatDataBucketName
       Events:
 
   # デフォルトだとリテンションが無限の Log Group ができてしまうので指定して作成

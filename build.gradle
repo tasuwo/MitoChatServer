@@ -69,10 +69,12 @@ dependencies {
     }
 
     // AWS
-    compile group: 'com.amazonaws', name: 'aws-lambda-java-events', version: '1.3.0'
-    compile group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.1.0'
-    compile group: 'com.amazonaws', name: 'aws-java-sdk-cloudfront', version: '1.11.172'
-    compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.179'
+    ext.aws_java_sdk_version='1.11.363'
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-core', version: aws_java_sdk_version
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb', version: aws_java_sdk_version
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: aws_java_sdk_version
+    compile group: 'com.amazonaws', name: 'aws-lambda-java-events', version: '2.2.2'
+    compile group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.2.0'
     compile group: 'com.amazonaws', name: 'aws-lambda-java-log4j', version: '1.0.0'
 
     // Test

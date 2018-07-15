@@ -1,5 +1,6 @@
 package net.tasuwo.mitochat.resource
 
+import com.amazonaws.services.dynamodbv2.document.DynamoDB
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
@@ -8,14 +9,16 @@ import io.swagger.annotations.ApiResponses
 import io.swagger.annotations.Extension
 import io.swagger.annotations.ExtensionProperty
 import io.swagger.annotations.ResponseHeader
-import net.tasuwo.mitochat.model.ErrorResponse
-import net.tasuwo.mitochat.model.events.Events
-import net.tasuwo.mitochat.model.events.ProvideButtonEvent
-import net.tasuwo.mitochat.model.events.ResetButtonsEvent
-import net.tasuwo.mitochat.model.events.TalkEvent
-import net.tasuwo.mitochat.model.events.TypingEvent
-import net.tasuwo.mitochat.model.events.WaitingEvent
+import net.tasuwo.mitochat.aws.DynamoDBClient
+import net.tasuwo.mitochat.model.EnvironmentVariable
+import net.tasuwo.mitochat.aws.S3Client
+import net.tasuwo.mitochat.aws.extensions.download
+import net.tasuwo.mitochat.aws.extensions.retrieveChatDataPrefix
+import net.tasuwo.mitochat.model.JsonParser
+import net.tasuwo.mitochat.model.json.ErrorResponse
 import org.apache.log4j.Logger
+import java.io.FileReader
+import java.nio.file.Paths
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import javax.ws.rs.Consumes
@@ -25,14 +28,26 @@ import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
 
-@Path("/events")
+@Path("/chat")
 @Api(value = "会話中に発生するイベント")
-class EventsResource {
-    @Suppress("unused")
-    private val logger = Logger.getLogger(EventsResource::class.java)
+class ChatResource {
+    private val logger = Logger.getLogger(ChatResource::class.java)
+
+    private inline fun catchAll(logger: Logger, callback: () -> Response): Response {
+        return try {
+            callback()
+        } catch (e: Exception) {
+            logger.error(e.localizedMessage, e)
+
+            return Response
+                .status(500)
+                .entity(ErrorResponse("サーバ内部のエラーです : ${e.localizedMessage}"))
+                .build()
+        }
+    }
 
     @GET
-    @Path("{key}")
+    @Path("{chat_id}")
     @ApiOperation(
         value = "イベント群を取得する",
         notes = "会話を進めるイベント群を取得する",
@@ -61,54 +76,26 @@ class EventsResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.WILDCARD)
     fun retrieveEvents(
-        @ApiParam(value = "イベント群のID", required = true) @PathParam("key") key: String
+        @ApiParam(value = "チャットのID", required = true) @PathParam("chat_id") chat_id: Int
     ): Response {
-        return when (key) {
-            "1" -> {
-                val events = Events(listOf(
-                    WaitingEvent(2.0),
-                    TypingEvent(2.0),
-                    TalkEvent("mito.png", "起立！気をつけ！", false),
-                    WaitingEvent(1.0),
-                    TypingEvent(4.0),
-                    TalkEvent("mito.png", "こんにちは〜〜〜！月ノ美兎です〜〜〜！", false),
-                    WaitingEvent(1.0),
-                    TypingEvent(2.0),
-                    TalkEvent("mito.png", "見えてるかな？？", false),
-                    WaitingEvent(1.5),
-                    ProvideButtonEvent("おるやんけ！！", 2),
-                    ProvideButtonEvent("みえてます！！", 3)
-                ))
-                Response
-                    .status(200)
-                    .entity(events)
-                    .build()
-            }
-            "2" -> {
-                val events = Events(listOf(
-                    ResetButtonsEvent(),
-                    TalkEvent("default.png", "おるやんけ！！", true),
-                    WaitingEvent(3.0),
-                    TypingEvent(3.0),
-                    WaitingEvent(0.2),
-                    TalkEvent("mito.png", "は〜い、おりますよ〜w", false)
-                ))
-                Response
-                    .status(200)
-                    .entity(events)
-                    .build()
-            }
-            else -> {
-                Response
-                    .status(404)
-                    .entity(ErrorResponse("存在しないイベント ID です"))
-                    .build()
-            }
+        return catchAll(logger) {
+            val s3Client = S3Client.get()
+            val dbClient = DynamoDBClient.get()
+            val db = DynamoDB(dbClient)
+            val tmpJsonPath = Paths.get("/tmp/tmp.json")
+
+            val prefix = db.retrieveChatDataPrefix(chat_id, 1)
+            s3Client.download(EnvironmentVariable.s3BucketName, prefix, tmpJsonPath)
+
+            return Response
+                .status(200)
+                .entity(JsonParser().parse(FileReader(tmpJsonPath.toFile()).readText()))
+                .build()
         }
     }
 
     @OPTIONS
-    @Path("{key}")
+    @Path("{chat_id}")
     @ApiOperation(
         value = "CORS サポート",
         notes = "正しいヘッダーを返すことで CORS を有効にする",
