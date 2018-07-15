@@ -3,7 +3,8 @@ import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper
 import io.restassured.RestAssured
 import io.restassured.RestAssured.`when`
 import io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema
-import net.tasuwo.mitochat.model.ErrorResponse
+import net.tasuwo.mitochat.model.json.ErrorResponse
+import net.tasuwo.mitochat.model.json.Scenario
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
@@ -22,21 +23,17 @@ object IntegrationTestSpec : Spek({
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonSchema)
     }
 
-    describe("/events/{id}") {
+    describe("/chat/{id}") {
         on("チャットイベント群を取得する") {
             it("ID1の会話イベント群を取得する") {
-                `when`().get("/events/1")
-                    .then().statusCode(200)
-            }
-            it("ID2の会話イベント群を取得する") {
-                `when`().get("/events/2")
+                `when`().get("/chat/1")
                     .then().statusCode(200)
             }
         }
         on("存在しないチャットイベント群を取得する") {
-            it("404 エラーが返ってくる") {
-                `when`().get("/events/0")
-                    .then().statusCode(404)
+            it("500 エラーが返ってくる") {
+                `when`().get("/chat/0")
+                    .then().statusCode(500)
                     .body(matchesJsonSchema(pojo2JsonSchema(ErrorResponse::class.java)))
             }
         }

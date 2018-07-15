@@ -1,0 +1,124 @@
+{
+  "0": {
+    "events": [
+      {
+        "type": "WAITING",
+        "time": 2
+      },
+      {
+        "type": "TYPING",
+        "time": 2
+      },
+      {
+        "type": "TALK",
+        "icon": "mito.png",
+        "text": "起立！気をつけ！",
+        "right": false
+      },
+      {
+        "type": "WAITING",
+        "time": 1
+      },
+      {
+        "type": "TYPING",
+        "time": 4
+      },
+      {
+        "type": "TALK",
+        "icon": "mito.png",
+        "text": "こんにちは〜〜〜！月ノ美兎です〜〜〜！",
+        "right": false
+      },
+      {
+        "type": "WAITING",
+        "time": 1
+      },
+      {
+        "type": "TYPING",
+        "time": 2
+      },
+      {
+        "type": "TALK",
+        "icon": "mito.png",
+        "text": "見えてるかな？？",
+        "right": false
+      },
+      {
+        "type": "WAITING",
+        "time": 1.5
+      },
+      {
+        "type": "PROVIDE_BUTTON",
+        "text": "おるやんけ！！",
+        "nextChatId": 1
+      },
+      {
+        "type": "PROVIDE_BUTTON",
+        "text": "見えてます！！",
+        "nextChatId": 2
+      }
+    ]
+  },
+  "1": {
+    "events": [
+      {
+        "type": "RESET_BUTTONS"
+      },
+      {
+        "type": "TALK",
+        "icon": "default.png",
+        "text": "おるやんけ！！",
+        "right": true
+      },
+      {
+        "type": "WAITING",
+        "time": 3
+      },
+      {
+        "type": "TYPING",
+        "time": 3
+      },
+      {
+        "type": "WAITING",
+        "time": 0.2
+      },
+      {
+        "type": "TALK",
+        "icon": "mito.png",
+        "text": "は〜い、おりますよ〜w",
+        "right": false
+      }
+    ]
+  },
+  "2": {
+    "events": [
+      {
+        "type": "RESET_BUTTONS"
+      },
+      {
+        "type": "TALK",
+        "icon": "default.png",
+        "text": "見えてます！！",
+        "right": true
+      },
+      {
+        "type": "WAITING",
+        "time": 3
+      },
+      {
+        "type": "TYPING",
+        "time": 3
+      },
+      {
+        "type": "WAITING",
+        "time": 0.2
+      },
+      {
+        "type": "TALK",
+        "icon": "mito.png",
+        "text": ":+1:",
+        "right": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "TableName": "Chat",
+  "Item": {
+    "Id": {
+      "N": "1"
+    },
+    "Version": {
+      "N": "1"
+    },
+    "Source": {
+      "S": "sample_data.json"
+    }
+  }
+}
